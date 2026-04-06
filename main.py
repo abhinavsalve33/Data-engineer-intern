@@ -1,0 +1,132 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "20e18d96-5931-4cfa-b28c-6016324b26aa",
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "SyntaxError",
+     "evalue": "invalid syntax (1046137645.py, line 1)",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[1;36m  Cell \u001b[1;32mIn[3], line 1\u001b[1;36m\u001b[0m\n\u001b[1;33m    0 3 * * * python run_pipeline.py\u001b[0m\n\u001b[1;37m      ^\u001b[0m\n\u001b[1;31mSyntaxError\u001b[0m\u001b[1;31m:\u001b[0m invalid syntax\n"
+     ]
+    }
+   ],
+   "source": [
+    "# 0 3 * * * python run_pipeline.py"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "c0540a72-1d0a-4f83-9f75-4a785692fedb",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# # !pip install fastapi uvicorn\n",
+    "# # !pip install psycopg2-binary\n",
+    "# from fastapi import FastAPI\n",
+    "# import psycopg2\n",
+    "\n",
+    "# app = FastAPI()\n",
+    "\n",
+    "# @app.get(\"/jobs\")\n",
+    "# def get_jobs():\n",
+    "\n",
+    "#     conn = psycopg2.connect(\n",
+    "#         host=\"localhost\",\n",
+    "#         database=\"HackerDB1\",\n",
+    "#         user=\"root\",\n",
+    "#         password=\"root\"\n",
+    "#     )\n",
+    "\n",
+    "#     cur = conn.cursor()\n",
+    "\n",
+    "#     cur.execute(\"SELECT * FROM hackernews_data LIMIT 50\")\n",
+    "\n",
+    "#     rows = cur.fetchall()\n",
+    "\n",
+    "#     cur.close()\n",
+    "#     conn.close()\n",
+    "\n",
+    "#     return rows"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "339136e7-0061-4d22-ba31-8ff5bb09b959",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from fastapi import FastAPI\n",
+    "import mysql.connector\n",
+    "import os\n",
+    "\n",
+    "app = FastAPI()\n",
+    "\n",
+    "@app.get(\"/\")\n",
+    "def home():\n",
+    "    return {\"message\": \"API running 🚀\"}\n",
+    "\n",
+    "@app.get(\"/jobs\")\n",
+    "def get_jobs():\n",
+    "    conn = mysql.connector.connect(\n",
+    "        host=os.getenv(\"localhost\"),\n",
+    "        user=os.getenv(\"root\"),\n",
+    "        password=os.getenv(\"root\"),\n",
+    "        database=os.getenv(\"HackerDB1\")\n",
+    "    )\n",
+    "\n",
+    "    cursor = conn.cursor()\n",
+    "    cursor.execute(\"SELECT * FROM hackernews_data LIMIT 50\")\n",
+    "    rows = cursor.fetchall()\n",
+    "\n",
+    "    cursor.close()\n",
+    "    conn.close()\n",
+    "\n",
+    "    return rows"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "bde6d125-29c7-4ceb-9bbe-ac0daf07f0d3",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d51a10e5-7052-49f6-b1a0-8f0f10f11930",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.3"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
